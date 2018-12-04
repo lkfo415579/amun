@@ -48,9 +48,13 @@ class God {
       return config_.Get<T>(key);
     }
 
+    void SetAllowUnk(int option);
+
     YAML::Node Get(const std::string& key) const {
       return config_.Get(key);
     }
+
+    bool Get_UNK() const;
 
     Vocab& GetSourceVocab(unsigned tab = 0, unsigned factor = 0) const;
     FactorVocab& GetSourceVocabs(unsigned tab=0) const;
@@ -128,4 +132,3 @@ class God {
 };
 
 }
-

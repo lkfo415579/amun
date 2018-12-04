@@ -34,8 +34,12 @@ void TranslationTaskAndOutput(const God &god, std::shared_ptr<Sentences> sentenc
 
 std::shared_ptr<Histories> TranslationTask(const God &god, std::shared_ptr<Sentences> sentences) {
   try {
+    // cerr << "T" << endl;
     Search& search = god.GetSearch();
-    auto histories = search.Translate(*sentences);
+    // cerr << "T" << endl;
+    // cerr << "GOD:" << god.Get_UNK() << endl;
+    bool allow_unk = god.Get_UNK();
+    auto histories = search.Translate(*sentences, allow_unk);
 
     return histories;
   }
@@ -65,4 +69,3 @@ std::shared_ptr<Histories> TranslationTask(const God &god, std::shared_ptr<Sente
 }
 
 }
-

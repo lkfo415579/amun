@@ -18,16 +18,11 @@
 using namespace amunmt;
 using namespace std;
 
-// Modified by Revo, 12/3/2018
-// added allow-unk option to this translate interface
 God god_;
 
 void init(const std::string &options) { god_.Init(options); }
 
-boost::python::list translate(boost::python::list &in, int allow_unk) {
-  // set allow_unk first
-  god_.SetAllowUnk(allow_unk);
-  //
+boost::python::list translate(boost::python::list &in) {
   size_t miniSize = god_.Get<size_t>("mini-batch");
   size_t maxiSize = god_.Get<size_t>("maxi-batch");
   int miniWords = god_.Get<int>("mini-batch-words");
@@ -48,10 +43,7 @@ boost::python::list translate(boost::python::list &in, int allow_unk) {
       maxiBatch->SortByLength();
       while (maxiBatch->size()) {
         SentencesPtr miniBatch = maxiBatch->NextMiniBatch(miniSize, miniWords);
-        // changed
-        for (size_t i = 0; i < miniBatch->size(); ++i) {
-          maxiBatchCopy->push_back(miniBatch->at(i));
-        }
+        maxiBatchCopy->push_back(miniBatch->at(0));
 
         results.emplace_back(god_.GetThreadPool().enqueue(
             [miniBatch] { return TranslationTask(::god_, miniBatch); }));
@@ -66,11 +58,7 @@ boost::python::list translate(boost::python::list &in, int allow_unk) {
     maxiBatch->SortByLength();
     while (maxiBatch->size()) {
       SentencesPtr miniBatch = maxiBatch->NextMiniBatch(miniSize, miniWords);
-      // maxiBatchCopy->push_back(miniBatch->at(0));
-      // changed
-      for (size_t i = 0; i < miniBatch->size(); ++i) {
-        maxiBatchCopy->push_back(miniBatch->at(i));
-      }
+      maxiBatchCopy->push_back(miniBatch->at(0));
       results.emplace_back(god_.GetThreadPool().enqueue(
           [miniBatch] { return TranslationTask(::god_, miniBatch); }));
     }
@@ -99,7 +87,7 @@ boost::python::list translate(boost::python::list &in, int allow_unk) {
   return output;
 }
 
-BOOST_PYTHON_MODULE(libfastnmt) {
+BOOST_PYTHON_MODULE(libamunmt) {
   boost::python::def("init", init);
-  boost::python::def("translate_batch", translate);
+  boost::python::def("translate", translate);
 }

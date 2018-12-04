@@ -23,9 +23,11 @@ class BaseBestHyps
         std::vector<Beam>& beams,
         std::vector<unsigned>& beamSizes) = 0;
 
+    void refresh_UNK(bool allow_unk);
+
   protected:
     const God &god_;
-    const bool forbidUNK_;
+    bool forbidUNK_;
     const bool isInputFiltered_;
     const bool returnAttentionWeights_;
     const std::map<std::string, float> weights_;

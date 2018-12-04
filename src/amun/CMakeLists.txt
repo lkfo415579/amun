@@ -74,7 +74,7 @@ if (MARIAN)
    #execute_process(COMMAND git submodule update --init --recursive
 #                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 #   add_subdirectory(marian)
-endif(MARIAN)  
+endif(MARIAN)
 
 set_source_files_properties( common/loader_factory.cpp
   PROPERTIES CUDA_SOURCE_PROPERTY_FORMAT OBJ )
@@ -133,7 +133,7 @@ cuda_add_library(python SHARED
   $<TARGET_OBJECTS:libyaml-cpp-amun>
 )
 set_target_properties("python" PROPERTIES EXCLUDE_FROM_ALL 1)
-set_target_properties("python" PROPERTIES OUTPUT_NAME "amunmt")
+set_target_properties("python" PROPERTIES OUTPUT_NAME "fastnmt")
 
 endif(PYTHONLIBS_FOUND)
 
@@ -187,7 +187,7 @@ add_library(python SHARED
   $<TARGET_OBJECTS:libyaml-cpp-amun>
 )
 set_target_properties("python" PROPERTIES EXCLUDE_FROM_ALL 1)
-set_target_properties("python" PROPERTIES OUTPUT_NAME "amunmt")
+set_target_properties("python" PROPERTIES OUTPUT_NAME "fastnmt")
 endif(PYTHONLIBS_FOUND)
 endif(CUDA_FOUND)
 

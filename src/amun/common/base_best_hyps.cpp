@@ -13,5 +13,8 @@ BaseBestHyps::BaseBestHyps(const God &god)
   weights_(god.GetScorerWeights())
 {}
 
+void BaseBestHyps::refresh_UNK(bool allow_unk){
+  forbidUNK_ = allow_unk;
 }
 
+}

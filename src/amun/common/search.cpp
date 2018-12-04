@@ -26,6 +26,10 @@ Search::Search(const God &god)
     bestHyps_(god.GetBestHyps(deviceInfo_))
 {
   //activeCount_.resize(god.Get<unsigned>("mini-batch") + 1, 0);
+  // refresh-allow
+  // cerr << "In Search" << endl;
+  // cerr << god.Get_UNK() << endl;
+
   BEGIN_TIMER_CPU("Search");
 }
 
@@ -70,7 +74,10 @@ void Search::CleanAfterTranslation()
   }
 }
 
-std::shared_ptr<Histories> Search::Translate(const Sentences& sentences) {
+std::shared_ptr<Histories> Search::Translate(const Sentences& sentences, const bool allow_unk=false) {
+  // allow_unk
+  bestHyps_->refresh_UNK(allow_unk);
+  //
   boost::timer::cpu_timer timer;
 
   if (filter_) {
@@ -215,4 +222,3 @@ void Search::BatchStats()
 */
 
 }
-

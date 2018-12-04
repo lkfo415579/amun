@@ -17,7 +17,7 @@ class Search {
     Search(const God &god);
     virtual ~Search();
 
-    std::shared_ptr<Histories> Translate(const Sentences& sentences);
+    std::shared_ptr<Histories> Translate(const Sentences& sentences, const bool allow_unk);
 
   protected:
     States NewStates() const;
@@ -50,4 +50,3 @@ class Search {
 };
 
 }
-

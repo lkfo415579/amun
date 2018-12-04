@@ -64,6 +64,12 @@ God& God::Init(int argc, char** argv) {
 
   config_.LogOptions();
 
+  //Debug
+  // cerr << "BITCH----\n";
+  // config_.Set("allow-unk", true);
+  // cerr << Get("allow-unk") << endl;
+
+
   if (Get("source-vocab").IsSequence()) {
     YAML::Node tabVocabs = Get("source-vocab");
     for (unsigned i = 0; i < tabVocabs.size(); i++) {
@@ -131,6 +137,17 @@ God& God::Init(int argc, char** argv) {
   pool_.reset(new ThreadPool(totalThreads, totalThreads));
 
   return *this;
+}
+
+void God::SetAllowUnk(int option){
+  // cerr << "------BITCH-----\n";
+  if (option){
+    config_.Set("allow-unk", true);
+  }else{
+    config_.Set("allow-unk", false);
+  }
+  // cerr << Get<bool>("allow-unk") << endl;
+
 }
 
 void God::Cleanup()
@@ -226,6 +243,10 @@ void God::LoadPrePostProcessing() {
     LOG(info)->info("De-BPE output");
     postprocessors_.emplace_back(new BPE());
   }
+}
+
+bool God::Get_UNK() const {
+  return Get<bool>("allow-unk");
 }
 
 Vocab& God::GetSourceVocab(unsigned tab, unsigned factor) const {
@@ -429,4 +450,3 @@ unsigned God::GetTotalThreads() const
 }
 
 }
-
